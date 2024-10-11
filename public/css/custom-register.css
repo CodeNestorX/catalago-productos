@@ -1,0 +1,83 @@
+body, html {
+    height: 100%;
+    background-repeat: no-repeat;
+    background: #60a3bc !important;
+    font-family: 'Oxygen', sans-serif;
+}
+
+.main {
+    margin-top: 70px;
+}
+
+h1.title { 
+    font-size: 50px;
+    font-family: 'Passion One', cursive; 
+    font-weight: 400; 
+    color: #fff;
+}
+
+hr {
+    width: 10%;
+    border-color: #f39c12;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    margin-bottom: 15px;
+    color: #f39c12;
+}
+
+input,
+input::-webkit-input-placeholder {
+    font-size: 11px;
+    padding-top: 3px;
+}
+
+.main-login {
+    background-color: #f39c12;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.main-center {
+    margin-top: 30px;
+    margin: 0 auto;
+    max-width: 330px;
+    padding: 40px 40px;
+}
+
+.login-button {
+    margin-top: 5px;
+    background: #c0392b !important;
+    color: white !important;
+    border: none;
+}
+
+.login-button:hover,
+.login-button:focus {
+    background: #a93226 !important;
+}
+
+.login-register {
+    font-size: 11px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.login-register a {
+    color: #fff;
+}
+
+.input-group-addon {
+    background: #c0392b !important;
+    color: white !important;
+    border: 0 !important;
+}
+
+.form-control:focus {
+    border-color: #c0392b;
+    box-shadow: none;
+}
