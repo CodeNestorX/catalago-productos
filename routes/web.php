@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\ProductoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,5 +36,8 @@ Route::middleware('guest')->group(function () {
                 ->name('register');
     Route::post('register', [RegisteredUserController::class, 'store']);
 });
+
+Route::resource('categorias', CategoriaController::class);
+Route::resource('productos', ProductoController::class);
 
 require __DIR__.'/auth.php';
