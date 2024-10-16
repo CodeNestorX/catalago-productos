@@ -13,11 +13,14 @@ return new class extends Migration
     {
         Schema::create('productos', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre'); // Nombre del producto
-            $table->text('descripcion')->nullable(); // Descripción del producto
-            $table->decimal('precio', 8, 2); // Precio del producto
-            $table->unsignedBigInteger('categoria_id'); // Relación con la tabla de categorías
-            $table->foreign('categoria_id')->references('id')->on('categorias')->onDelete('cascade'); // Clave foránea
+            $table->string('nombre');
+            $table->text('descripcion');
+            $table->decimal('precio', 8, 2);
+            $table->unsignedBigInteger('categoria_id');
+            $table->unsignedBigInteger('user_id');  // Campo para el id del usuario
+    
+            $table->foreign('categoria_id')->references('id')->on('categorias')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

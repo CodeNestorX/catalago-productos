@@ -14,6 +14,10 @@ return new class extends Migration
         Schema::create('categorias', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
+            $table->text('descripcion');
+            $table->unsignedBigInteger('user_id');  // Campo para el id del usuario
+            
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -27,7 +27,7 @@
                         <div class="cols-sm-10">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                                <input type="text" class="form-control" name="name" id="name" placeholder="Ingresa tu nombre" required autofocus>
+                                <input type="text" class="form-control" name="name" id="name" value="{{ old('name') }}" placeholder="Ingresa tu nombre" required autofocus>
                             </div>
                         </div>
                     </div>
@@ -37,7 +37,7 @@
                         <div class="cols-sm-10">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-                                <input type="email" class="form-control" name="email" id="email" placeholder="Ingresa tu Email" required>
+                                <input type="email" class="form-control" name="email" id="email" value="{{ old('email') }}" placeholder="Ingresa tu Email" required>
                             </div>
                         </div>
                     </div>
@@ -69,6 +69,16 @@
                         <a href="{{ route('login') }}">Iniciar sesión</a>
                     </div>
                 </form>
+
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
