@@ -1,6 +1,7 @@
 @extends('user.dashboard')
 
 @section('content')
+
 <div class="container-fluid px-4">
     <h1 class="mt-4">Mis Categorías</h1>
     <ol class="breadcrumb mb-4">

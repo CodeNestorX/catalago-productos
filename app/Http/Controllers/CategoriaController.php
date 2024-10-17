@@ -30,12 +30,18 @@ class CategoriaController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'nombre' => 'required|string|max:255',
-            'descripcion' => 'nullable|string',
+            'descripcion' => 'nullable|string|required|max:500',
+        ], [
+            'nombre.required' => 'El nombre de la categoría es obligatorio.',
+            'nombre.max' => 'El nombre no debe exceder los 255 caracteres.',
+            'descripcion.max' => 'La descripción no debe exceder los 500 caracteres.',
+            'nombre.unique' => 'Ya existe una categoría con este nombre.',
+            'descripcion.required' => 'La descripción es obligatoria.',
         ]);
 
-        $categoria = new Categoria($request->all());
+        $categoria = new Categoria($validatedData);
         $categoria->user_id = Auth::id();
         $categoria->save();
 
@@ -64,11 +70,18 @@ class CategoriaController extends Controller
      */
     public function update(Request $request, Categoria $categoria)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'nombre' => 'required|string|max:255|unique:categorias,nombre,' . $categoria->id,
+            'descripcion' => 'nullable|string|required|max:500',
+        ], [
+            'nombre.required' => 'El nombre de la categoría es obligatorio.',
+            'nombre.max' => 'El nombre no debe exceder los 255 caracteres.',
+            'nombre.unique' => 'Ya existe una categoría con este nombre.',
+            'descripcion.max' => 'La descripción no debe exceder los 500 caracteres.',
+            'descripcion.required' => 'La descripción es obligatoria.',
         ]);
 
-        $categoria->update($request->all());
+        $categoria->update($validatedData);
 
         return redirect()->route('categorias.index')
             ->with('success', 'Categoría actualizada exitosamente.');
