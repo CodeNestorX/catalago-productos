@@ -17,16 +17,16 @@
             <table id="datatablesSimple">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>#</th>
                         <th>Nombre</th>
                         <th>Descripción</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($categorias as $categoria)
+                    @foreach($categorias as $index => $categoria)
                     <tr>
-                        <td>{{ $categoria->id }}</td>
+                        <td>{{ $index + 1 }}</td>
                         <td>{{ $categoria->nombre }}</td>
                         <td>{{ $categoria->descripcion }}</td>
                         <td>

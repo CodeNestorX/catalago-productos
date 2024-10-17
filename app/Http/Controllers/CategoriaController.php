@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Categoria; // Asegúrate de importar el modelo Categoria
+use App\Models\Categoria; 
 use Illuminate\Support\Facades\Auth;
 
 class CategoriaController extends Controller
