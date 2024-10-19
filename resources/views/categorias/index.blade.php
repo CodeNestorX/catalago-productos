@@ -32,10 +32,10 @@
                         <td>{{ $categoria->descripcion }}</td>
                         <td>
                             <a href="{{ route('categorias.edit', $categoria->id) }}" class="btn btn-warning btn-sm">Editar</a>
-                            <form action="{{ route('categorias.destroy', $categoria->id) }}" method="POST" style="display:inline">
+                            <form action="{{ route('categorias.destroy', $categoria->id) }}" method="POST" style="display:inline" onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta categoría?');">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar esta categoría?')">Eliminar</button>
+                                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
                             </form>
                         </td>
                     </tr>
@@ -45,4 +45,12 @@
         </div>
     </div>
 </div>
+
+@if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+
 @endsection

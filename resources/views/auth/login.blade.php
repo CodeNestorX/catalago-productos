@@ -27,17 +27,32 @@
 				<div class="d-flex justify-content-center form_container">
 					<form method="POST" action="{{ route('login') }}">
 						@csrf
+						@if ($errors->any())
+							<div class="alert alert-danger">
+								<ul>
+									@foreach ($errors->all() as $error)
+										<li>{{ $error }}</li>
+									@endforeach
+								</ul>
+							</div>
+						@endif
 						<div class="input-group mb-3">
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-envelope"></i></span>
 							</div>
-							<input type="email" name="email" class="form-control input_user" value="{{ old('email') }}" placeholder="Email" required autofocus>
+							<input type="email" name="email" class="form-control input_user @error('email') is-invalid @enderror" value="{{ old('email') }}" placeholder="Email" required autofocus>
+							@error('email')
+								<div class="invalid-feedback">{{ $message }}</div>
+							@enderror
 						</div>
 						<div class="input-group mb-2">
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-key"></i></span>
 							</div>
-							<input type="password" name="password" class="form-control input_pass" placeholder="Contraseña" required>
+							<input type="password" name="password" class="form-control input_pass @error('password') is-invalid @enderror" placeholder="Contraseña" required>
+							@error('password')
+								<div class="invalid-feedback">{{ $message }}</div>
+							@enderror
 						</div>
 						<div class="form-group">
 							<div class="custom-control custom-checkbox">
