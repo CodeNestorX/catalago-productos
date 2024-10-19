@@ -1,3 +1,44 @@
+# Proyecto 2 - CRUD con Laravel
+
+## Requisitos
+- PHP 8.1.29
+- Composer version 2.7.9
+- Node.js v20.18.0
+-  npm v10.8.2
+-  Laravel 10.48.22
+- Base de datos MySQL 8.0.30
+
+## Instalación y configuración
+
+1. Clonar el repositorio:
+2. Instalar las dependencias de PHP con Composer:
+## composer install
+3. Copiar el archivo .env.example y renómbralo a .env:
+## cp .env.example .env
+4. Genera la clave de la aplicación de Laravel:
+## php artisan key:generate
+5. Configura la base de datos en el archivo .env (usuario, contraseña, nombre de la base de datos).
+6. Ejecutar las migraciones para crear las tablas en la base de datos:
+## php artisan migrate
+7. Instalar las dependencias de Node.js:
+## npm install
+8. Se están utilizando herramientas de assets, ejecutar el siguiente comando para compilarlos:
+## npm run dev
+9. Iniciar el servidor de desarrollo de Laravel:
+## php artisan serve
+
+## Funcionalidades
+-. Registro e inicio de sesión de usuarios.
+-. CRUD de categorías (Crear, Leer, Actualizar, Eliminar).
+-. Validación de formularios.
+-. Control de sesiones de usuario.
+
+
+
+
+
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
