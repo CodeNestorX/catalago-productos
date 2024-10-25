@@ -10,8 +10,15 @@ class Categoria extends Model
     use HasFactory;
 
     protected $fillable = ['nombre', 'descripcion', 'user_id'];
+
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    //Relación con productos
+    public function productos()
+    {
+        return $this->hasMany(Producto::class);
     }
 }

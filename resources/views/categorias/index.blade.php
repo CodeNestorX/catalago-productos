@@ -26,19 +26,19 @@
                 </thead>
                 <tbody>
                     @foreach($categorias as $index => $categoria)
-                    <tr>
-                        <td>{{ $index + 1 }}</td>
-                        <td>{{ $categoria->nombre }}</td>
-                        <td>{{ $categoria->descripcion }}</td>
-                        <td>
-                            <a href="{{ route('categorias.edit', $categoria->id) }}" class="btn btn-warning btn-sm">Editar</a>
-                            <form action="{{ route('categorias.destroy', $categoria->id) }}" method="POST" style="display:inline" onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta categoría?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
-                            </form>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td><a href="{{ route('productos.index', $categoria->id) }}">{{ $categoria->nombre }}</a></td>
+                            <td>{{ $categoria->descripcion }}</td>
+                            <td>
+                                <a href="{{ route('categorias.edit', $categoria->id) }}" class="btn btn-warning btn-sm">Editar</a>
+                                <form action="{{ route('categorias.destroy', $categoria->id) }}" method="POST" style="display:inline" onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta categoría?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                </form>
+                            </td>
+                        </tr>
                     @endforeach
                 </tbody>
             </table>
