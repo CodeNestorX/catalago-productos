@@ -1,0 +1,9 @@
+.categoria-link {
+    color: black;
+    text-decoration: none;
+}
+
+.categoria-link:hover {
+    color: black;
+    text-decoration: underline;
+}

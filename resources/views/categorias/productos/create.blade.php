@@ -24,7 +24,7 @@
                 <!-- Campo para el precio del producto -->
                 <div class="mb-3">
                     <label for="precio" class="form-label">Precio</label>
-                    <input type="number" class="form-control @error('precio') is-invalid @enderror" id="precio" name="precio" placeholder="Ej: 499.99" value="{{ old('precio') }}" required>
+                    <input type="text" class="form-control @error('precio') is-invalid @enderror" id="precio" name="precio" placeholder="Ej: 499.99" value="{{ old('precio') }}" required>
                     @error('precio')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
