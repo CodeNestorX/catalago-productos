@@ -25,6 +25,7 @@
                         <th>Nombre</th>
                         <th>Precio</th>
                         <th>Descripción</th>
+                        <th>Stock</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -35,9 +36,13 @@
                         <td>{{ $producto->nombre }}</td>
                         <td>{{ $producto->precio }}</td>
                         <td>{{ $producto->descripcion }}</td>
+                        <td>{{ $producto->stock }}</td>
                         <td>
                             <!-- Botones de acciones -->
                             <a href="{{ route('productos.edit', $producto->id) }}" class="btn btn-warning btn-sm">Editar</a>
+                            <a href="{{ route('movimientos.createEntrada', ['categoria' => $producto->categoria_id, 'producto' => $producto->id]) }}" class="btn btn-success btn-sm">Entrada</a>
+                            <a href="{{ route('movimientos.createSalida', ['categoria' => $producto->categoria_id, 'producto' => $producto->id]) }}" class="btn btn-danger btn-sm">Salida</a>
+                            <a href="{{ route('movimientos.historial', $producto->id) }}" class="btn btn-info btn-sm">Historial</a>
 
                             <form action="{{ route('productos.destroy', $producto->id) }}" method="POST" class="d-inline">
                                 @csrf
