@@ -27,6 +27,7 @@ class MovimientoInventarioController extends Controller
             'cantidad' => 'required|integer|min:1',
             'tipo_movimiento' => 'required|in:entrada,salida',
             'motivo' => 'required|string|max:255',
+            'stock_minimo' => 'sometimes|required|integer|min:1',
         ]);
 
         $producto = Producto::findOrFail($request->producto_id);
@@ -35,24 +36,31 @@ class MovimientoInventarioController extends Controller
             return back()->with('error', 'No hay suficiente stock disponible.');
         }
 
+        // Si se proporciona un nuevo stock_minimo, actualizarlo
+        if ($request->has('stock_minimo')) {
+            $producto->stock_minimo = $request->stock_minimo;
+        }
+
+        // Calcular nuevo stock
+        $nuevo_stock = $request->tipo_movimiento === 'entrada' 
+            ? $producto->stock + $request->cantidad 
+            : $producto->stock - $request->cantidad;
+
         $movimiento = new MovimientoInventario();
         $movimiento->producto_id = $request->producto_id;
         $movimiento->cantidad = $request->cantidad;
         $movimiento->tipo_movimiento = $request->tipo_movimiento;
         $movimiento->motivo = $request->motivo;
+        $movimiento->stock_resultante = $nuevo_stock;  // Guardamos el stock resultante
         $movimiento->save();
 
-        // Actualizar stock
-        if ($request->tipo_movimiento === 'entrada') {
-            $producto->stock += $request->cantidad;
-        } else {
-            $producto->stock -= $request->cantidad;
-        }
+        // Actualizar stock del producto
+        $producto->stock = $nuevo_stock;
         $producto->save();
 
         // Verificar stock bajo
         if ($producto->tieneStockBajo()) {
-            // Aquí podrías implementar el envío de notificaciones
+            session()->flash('warning', "¡Advertencia! El stock de {$producto->nombre} está por debajo del mínimo ({$producto->stock_minimo} unidades)");
         }
 
         return redirect()->route('productos.index', $producto->categoria_id)

@@ -15,6 +15,11 @@
             <label for="motivo" class="form-label">Motivo</label>
             <input type="text" name="motivo" class="form-control" required>
         </div>
+        <div class="mb-3">
+            <label for="stock_minimo" class="form-label">Stock Mínimo de Advertencia</label>
+            <input type="number" name="stock_minimo" class="form-control" value="{{ $producto->stock_minimo }}" required min="1">
+            <small class="text-muted">Se mostrará una alerta cuando el stock sea igual o menor a este valor</small>
+        </div>
         <button type="submit" class="btn btn-primary">Registrar Entrada</button>
         <a href="{{ route('productos.index', $producto->categoria_id) }}" class="btn btn-secondary">Regresar a Productos</a>
     </form>

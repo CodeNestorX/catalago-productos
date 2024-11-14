@@ -15,7 +15,8 @@ class MovimientoInventario extends Model
         'producto_id',
         'cantidad',
         'tipo_movimiento',
-        'motivo', 
+        'motivo',
+        'stock_resultante'
     ];
 
     public function producto()

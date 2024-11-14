@@ -39,6 +39,18 @@
     @enderror
                 </div>
 
+                <!-- Campo para el stock mínimo del producto -->
+                <div class="mb-3">
+                    <label for="stock_minimo" class="form-label">Stock Mínimo</label>
+                    <input type="number" class="form-control @error('stock_minimo') is-invalid @enderror" 
+                            id="stock_minimo" name="stock_minimo" 
+                            placeholder="Ej: 5" value="{{ old('stock_minimo', 5) }}" required min="1">
+                    <small class="text-muted">Se mostrará una alerta cuando el stock sea igual o menor a este valor</small>
+                    @error('stock_minimo')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
                 <!-- Botón para enviar el formulario -->
                 <button type="submit" class="btn btn-primary">Agregar Producto</button>
             </form>

@@ -26,6 +26,7 @@
                         <th>Precio</th>
                         <th>Descripción</th>
                         <th>Stock</th>
+                        <th>Stock Mínimo</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -36,7 +37,15 @@
                         <td>{{ $producto->nombre }}</td>
                         <td>{{ $producto->precio }}</td>
                         <td>{{ $producto->descripcion }}</td>
-                        <td>{{ $producto->stock }}</td>
+                        <td>
+                            {{ $producto->stock }}
+                            @if($producto->tieneStockBajo())
+                                <span class="badge bg-warning text-dark">
+                                    <i class="fas fa-exclamation-triangle"></i> Stock Bajo
+                                </span>
+                            @endif
+                        </td>
+                        <td>{{ $producto->stock_minimo }}</td>
                         <td>
                             <!-- Botones de acciones -->
                             <a href="{{ route('productos.edit', $producto->id) }}" class="btn btn-warning btn-sm">Editar</a>

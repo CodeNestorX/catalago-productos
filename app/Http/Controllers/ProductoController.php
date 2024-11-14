@@ -46,7 +46,9 @@ class ProductoController extends Controller
         $producto->precio = $request->precio;
         $producto->descripcion = $request->input('descripcion');
         $producto->categoria_id = $categoriaId;
-        $producto->user_id = auth()->id(); 
+        $producto->user_id = auth()->id();
+        $producto->stock = 0;
+        $producto->stock_minimo = $request->stock_minimo ?? 5; // Valor por defecto: 5
         $producto->save();
 
         return redirect()->route('productos.index', $categoriaId)
