@@ -73,4 +73,16 @@ class MovimientoInventarioController extends Controller
         $movimientos = $producto->movimientos()->orderBy('created_at', 'desc')->get();
         return view('categorias.productos.historial', compact('producto', 'movimientos'));
     }
+
+    public function allMovimientos()
+    {
+        $movimientos = MovimientoInventario::with(['producto', 'producto.categoria'])
+            ->whereHas('producto', function($query) {
+                $query->where('user_id', auth()->id());
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
+        
+        return view('movimientos.historialGeneral', compact('movimientos'));
+    }
 }

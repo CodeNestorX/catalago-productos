@@ -111,4 +111,14 @@ class ProductoController extends Controller
         ->with('success', 'Producto eliminado correctamente');
 }
 
+public function allProducts()
+{
+    $productos = Producto::where('user_id', auth()->id())
+                        ->with('categoria')
+                        ->orderBy('nombre')
+                        ->get();
+    
+    return view('categorias.productos.todosProductos', compact('productos'));
+}
+
 }

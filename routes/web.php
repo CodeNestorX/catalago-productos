@@ -46,6 +46,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/productos/{categoria}/{producto}/salida', [MovimientoInventarioController::class, 'createSalida'])->name('movimientos.createSalida');
     Route::post('/movimientos', [MovimientoInventarioController::class, 'store'])->name('movimientos.store');
     Route::get('/productos/{producto}/historial', [MovimientoInventarioController::class, 'historial'])->name('movimientos.historial');
+    Route::get('/productos', [ProductoController::class, 'allProducts'])->name('productos.all');
+    Route::get('/movimientos', [MovimientoInventarioController::class, 'allMovimientos'])->name('movimientos.all');
 });
 
 Route::middleware('guest')->group(function () {

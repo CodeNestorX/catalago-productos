@@ -53,6 +53,14 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-list"></i></div>
                                 Categorías
                             </a>
+                            <a class="nav-link" href="{{ route('productos.all') }}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-box"></i></div>
+                                Todos los Productos
+                            </a>
+                            <a class="nav-link" href="{{ route('movimientos.all') }}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-history"></i></div>
+                                Historial General
+                            </a>
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">
