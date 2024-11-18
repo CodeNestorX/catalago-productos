@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Producto;
 use App\Models\Categoria;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class ProductoController extends Controller
 {
@@ -36,9 +37,20 @@ class ProductoController extends Controller
     public function store(Request $request, $categoriaId)
     {
         $request->validate([
-            'nombre' => 'required|string|max:255',
-            'precio' => 'required|numeric',
+            'nombre' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('productos')->where(function ($query) use ($categoriaId) {
+                    return $query->where('categoria_id', $categoriaId)
+                                ->where('user_id', auth()->id());
+                })
+            ],
+            'precio' => 'required|numeric|min:0',
             'descripcion' => 'nullable|string|max:500',
+            'stock_minimo' => 'nullable|integer|min:1'
+        ], [
+            'nombre.unique' => 'Ya existe un producto con este nombre en esta categoría.'
         ]);
 
         $producto = new Producto();
@@ -75,50 +87,59 @@ class ProductoController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-{
-    $producto = Producto::findOrFail($id); 
+    {
+        $producto = Producto::findOrFail($id);
 
-    $request->validate([
-        'nombre' => 'required|string|max:255',
-        'precio' => 'required|numeric',
-        'descripcion' => 'nullable|string|max:500',
-    ]);
+        $request->validate([
+            'nombre' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('productos')->where(function ($query) use ($producto) {
+                    return $query->where('categoria_id', $producto->categoria_id)
+                               ->where('user_id', auth()->id());
+                })->ignore($producto->id)
+            ],
+            'precio' => 'required|numeric',
+            'descripcion' => 'nullable|string|max:500',
+        ], [
+            'nombre.unique' => 'Ya existe un producto con este nombre en esta categoría.'
+        ]);
 
-    $producto->update([
-        'nombre' => $request->input('nombre'),
-        'precio' => $request->input('precio'),
-        'descripcion' => $request->input('descripcion'),
-    ]);
+        $producto->update([
+            'nombre' => $request->input('nombre'),
+            'precio' => $request->input('precio'),
+            'descripcion' => $request->input('descripcion'),
+        ]);
 
-    // Redirigir a la lista de productos después de actualizar
-    return redirect()->route('productos.index', $producto->categoria_id)
-        ->with('success', 'Producto actualizado correctamente');
-}
-
+        // Redirigir a la lista de productos después de actualizar
+        return redirect()->route('productos.index', $producto->categoria_id)
+            ->with('success', 'Producto actualizado correctamente');
+    }
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
-{
-    $producto = Producto::findOrFail($id);
+    {
+        $producto = Producto::findOrFail($id);
 
-    $categoriaId = $producto->categoria_id;
-    $producto->delete();
+        $categoriaId = $producto->categoria_id;
+        $producto->delete();
 
-    // Redirigir a la lista de productos de la categoría después de eliminar
-    return redirect()->route('productos.index', $categoriaId)
-        ->with('success', 'Producto eliminado correctamente');
-}
+        // Redirigir a la lista de productos de la categoría después de eliminar
+        return redirect()->route('productos.index', $categoriaId)
+            ->with('success', 'Producto eliminado correctamente');
+    }
 
-public function allProducts()
-{
-    $productos = Producto::where('user_id', auth()->id())
-                        ->with('categoria')
-                        ->orderBy('nombre')
-                        ->get();
-    
-    return view('categorias.productos.todosProductos', compact('productos'));
-}
+    public function allProducts()
+    {
+        $productos = Producto::where('user_id', auth()->id())
+                            ->with('categoria')
+                            ->orderBy('nombre')
+                            ->get();
+        
+        return view('categorias.productos.todosProductos', compact('productos'));
+    }
 
 }

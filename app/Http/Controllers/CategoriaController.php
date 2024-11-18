@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Categoria; 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class CategoriaController extends Controller
 {
@@ -30,6 +31,19 @@ class CategoriaController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'nombre' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('categorias')->where(function ($query) {
+                    return $query->where('user_id', auth()->id());
+                })
+            ]
+        ], [
+            'nombre.unique' => 'Ya tienes una categoría con este nombre.'
+        ]);
+
         $validatedData = $request->validate([
             'nombre' => 'required|string|max:255',
             'descripcion' => 'nullable|string|required|max:500',
@@ -70,6 +84,19 @@ class CategoriaController extends Controller
      */
     public function update(Request $request, Categoria $categoria)
     {
+        $request->validate([
+            'nombre' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('categorias')->where(function ($query) {
+                    return $query->where('user_id', auth()->id());
+                })->ignore($categoria->id)
+            ]
+        ], [
+            'nombre.unique' => 'Ya tienes una categoría con este nombre.'
+        ]);
+
         $validatedData = $request->validate([
             'nombre' => 'required|string|max:255|unique:categorias,nombre,' . $categoria->id,
             'descripcion' => 'nullable|string|required|max:500',
