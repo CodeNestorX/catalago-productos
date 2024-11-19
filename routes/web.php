@@ -48,6 +48,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/productos/{producto}/historial', [MovimientoInventarioController::class, 'historial'])->name('movimientos.historial');
     Route::get('/productos', [ProductoController::class, 'allProducts'])->name('productos.all');
     Route::get('/movimientos', [MovimientoInventarioController::class, 'allMovimientos'])->name('movimientos.all');
+    Route::get('/movimientos/pdf/{fecha}', [MovimientoInventarioController::class, 'generarPDF'])
+        ->name('movimientos.pdf');
 });
 
 Route::middleware('guest')->group(function () {

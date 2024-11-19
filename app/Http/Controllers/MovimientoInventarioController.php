@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\MovimientoInventario;
 use App\Models\Producto;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class MovimientoInventarioController extends Controller
 {
@@ -84,5 +87,37 @@ class MovimientoInventarioController extends Controller
             ->get();
         
         return view('movimientos.historialGeneral', compact('movimientos'));
+    }
+
+    public function generarPDF($fecha)
+    {
+        $fecha = Carbon::parse($fecha)->format('Y-m-d');
+        
+        $movimientos = MovimientoInventario::with(['producto', 'producto.categoria'])
+            ->whereHas('producto', function($query) {
+                $query->where('user_id', auth()->id());
+            })
+            ->whereDate('created_at', $fecha)
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        $resumen = MovimientoInventario::whereHas('producto', function($query) {
+                $query->where('user_id', auth()->id());
+            })
+            ->whereDate('created_at', $fecha)
+            ->select(
+                DB::raw('SUM(CASE WHEN tipo_movimiento = "entrada" THEN cantidad ELSE 0 END) as total_entradas'),
+                DB::raw('SUM(CASE WHEN tipo_movimiento = "salida" THEN cantidad ELSE 0 END) as total_salidas'),
+                DB::raw('COUNT(DISTINCT producto_id) as productos_afectados')
+            )
+            ->first();
+
+        $pdf = Pdf::loadView('pdf.movimientos-diarios', [
+            'movimientos' => $movimientos,
+            'fecha' => Carbon::parse($fecha)->format('d/m/Y'),
+            'resumen' => $resumen
+        ]);
+
+        return $pdf->download('movimientos-' . $fecha . '.pdf');
     }
 }
