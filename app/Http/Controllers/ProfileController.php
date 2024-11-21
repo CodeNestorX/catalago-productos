@@ -1,60 +1,60 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Http\RedirectResponse;
+use App\Models\User;
+use App\Models\Categoria;
+use App\Models\Producto;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display the user's profile form.
-     */
-    public function edit(Request $request): View
+    public function index()
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
+        $user = auth()->user();
+        $totalCategorias = Categoria::where('user_id', $user->id)->count();
+        $totalProductos = Producto::where('user_id', $user->id)->count();
+
+        return view('profile.index', compact('totalCategorias', 'totalProductos'));
     }
 
-    /**
-     * Update the user's profile information.
-     */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function showChangePassword()
     {
-        $request->user()->fill($request->validated());
-
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
-
-        $request->user()->save();
-
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return view('profile.change-password');
     }
 
-    /**
-     * Delete the user's account.
-     */
-    public function destroy(Request $request): RedirectResponse
+    public function updatePassword(Request $request)
     {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
+        $request->validate([
+            'current_password' => ['required', function ($attribute, $value, $fail) {
+                if (!Hash::check($value, auth()->user()->password)) {
+                    $fail('La contraseña actual es incorrecta.');
+                }
+            }],
+            'password' => ['required', 'confirmed', Password::defaults()],
         ]);
 
-        $user = $request->user();
+        $user = User::find(auth()->id());
+        $user->password = Hash::make($request->password);
+        $user->save();
 
-        Auth::logout();
+        return redirect()->route('profile.index')
+            ->with('success', 'Contraseña actualizada exitosamente.');
+    }
 
+    public function destroy()
+    {
+        $user = User::find(auth()->id());
+        
+        // Eliminar registros relacionados
+        Categoria::where('user_id', $user->id)->delete();
+        Producto::where('user_id', $user->id)->delete();
+        
+        // Eliminar usuario (soft delete)
         $user->delete();
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
+        return redirect()->route('login')
+            ->with('success', 'Tu cuenta ha sido eliminada.');
     }
 }

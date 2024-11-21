@@ -27,7 +27,7 @@
                         <i class="fas fa-user fa-fw"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Perfil</a></li>
+                        <li><a class="dropdown-item" href="{{ route('profile.index') }}">Perfil</a></li>
                         <li><hr class="dropdown-divider" /></li>
                         <li>
                             <form method="POST" action="{{ route('logout') }}">
