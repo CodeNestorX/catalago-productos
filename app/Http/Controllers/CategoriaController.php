@@ -84,7 +84,7 @@ class CategoriaController extends Controller
      */
     public function update(Request $request, Categoria $categoria)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'nombre' => [
                 'required',
                 'string',
@@ -92,20 +92,13 @@ class CategoriaController extends Controller
                 Rule::unique('categorias')->where(function ($query) {
                     return $query->where('user_id', auth()->id());
                 })->ignore($categoria->id)
-            ]
-        ], [
-            'nombre.unique' => 'Ya tienes una categoría con este nombre.'
-        ]);
-
-        $validatedData = $request->validate([
-            'nombre' => 'required|string|max:255|unique:categorias,nombre,' . $categoria->id,
-            'descripcion' => 'nullable|string|required|max:500',
+            ],
+            'descripcion' => 'nullable|string|max:500',
         ], [
             'nombre.required' => 'El nombre de la categoría es obligatorio.',
             'nombre.max' => 'El nombre no debe exceder los 255 caracteres.',
-            'nombre.unique' => 'Ya existe una categoría con este nombre.',
+            'nombre.unique' => 'Ya tienes una categoría con este nombre.',
             'descripcion.max' => 'La descripción no debe exceder los 500 caracteres.',
-            'descripcion.required' => 'La descripción es obligatoria.',
         ]);
 
         $categoria->update($validatedData);
