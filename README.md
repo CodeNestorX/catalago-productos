@@ -1,4 +1,50 @@
-# Proyecto 2 - CRUD con Laravel
+# Proyecto 2 - Catalogo de productos
+# Sistema de Gestión de Inventario – INVENIA (Catalogo de productos) 
+Este proyecto es un sistema web de gestión de inventario desarrollado con Laravel, diseñado para administrar eficientemente productos y categorías. Las principales características incluyen:
+
+# Características Principales
+# 1.	Gestión de Usuarios
+•	Sistema de autenticación seguro
+•	Verificación de correo electrónico
+•	Gestión de perfil personalizado
+•	Soft delete para mantener históricos
+
+# 2.	Gestión de Categorías
+•	Creación y organización de categorías personalizadas
+•	Validación para evitar duplicados por usuario
+•	Descripción detallada de cada categoría
+•	Sistema de edición y eliminación
+
+# 3.	Gestión de Productos
+•	Registro detallado de productos
+•	Asignación a categorías específicas
+•	Control de stock y stock mínimo
+•	Sistema de alertas para stock bajo
+
+# 4.	Control de Inventario
+•	Registro de entradas y salidas de productos
+•	Historial detallado de movimientos
+•	Motivos de movimientos
+•	Stock resultante tras cada operación
+
+# 5.	Reportes y Visualización
+•	Vista general de todos los productos
+•	Historial de movimientos por producto
+•	Interfaz intuitiva y responsive
+•	Generación de reportes en PDF
+# Aspectos Técnicos Destacados
+•	Arquitectura MVC
+•	Relaciones eloquent entre modelos
+•	Middleware de autenticación
+•	Validaciones personalizadas
+•	Sistema de notificaciones por correo
+•	Interfaz basada en Bootstrap
+# Seguridad
+•	Protección CSRF
+•	Validación de datos
+•	Autenticación robusta
+•	Soft delete para preservar datos históricos
+
 
 ## Requisitos
 - PHP 8.1.29
